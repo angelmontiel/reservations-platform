@@ -3,7 +3,7 @@ package com.kukultec.reservations_service.service.business;
 import com.kukultec.reservations_service.dto.request.business.SaveBusinessRequest;
 import com.kukultec.reservations_service.dto.response.business.BusinessResponse;
 import com.kukultec.reservations_service.entity.Business;
-import com.kukultec.reservations_service.mapper.BusinessMapper;
+import com.kukultec.reservations_service.mapper.business.BusinessMapper;
 import com.kukultec.reservations_service.repository.business.BusinessRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

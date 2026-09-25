@@ -1,4 +1,4 @@
-package com.kukultec.reservations_service.mapper;
+package com.kukultec.reservations_service.mapper.business;
 
 import com.kukultec.reservations_service.dto.request.business.SaveBusinessRequest;
 import com.kukultec.reservations_service.dto.response.business.BusinessResponse;
