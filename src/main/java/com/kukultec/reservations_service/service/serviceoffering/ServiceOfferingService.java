@@ -28,9 +28,9 @@ public class ServiceOfferingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Negocio no encontrado"));
 
         ServiceOffering serviceOffering = serviceOfferingMapper.mapToEntity(request, business);
-        serviceOfferingRepository.save(serviceOffering);
+        ServiceOffering savedEntity = serviceOfferingRepository.save(serviceOffering);
 
-        return serviceOfferingMapper.mapToResponse(serviceOffering);
+        return serviceOfferingMapper.mapToResponse(savedEntity);
 
     }
 
