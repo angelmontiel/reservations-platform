@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record SaveBusinessRequest (
+public record BusinessRequest (
 
         @NotBlank(message = "El nombre no puede estar vacio")
         @Size(max = 150)

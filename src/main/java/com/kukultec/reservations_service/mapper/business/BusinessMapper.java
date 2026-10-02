@@ -1,6 +1,6 @@
 package com.kukultec.reservations_service.mapper.business;
 
-import com.kukultec.reservations_service.dto.request.business.SaveBusinessRequest;
+import com.kukultec.reservations_service.dto.request.business.BusinessRequest;
 import com.kukultec.reservations_service.dto.response.business.BusinessResponse;
 import com.kukultec.reservations_service.entity.Business;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BusinessMapper {
 
-    public Business mapToEntity(SaveBusinessRequest request) {
+    public Business mapToEntity(BusinessRequest request) {
         return Business.builder()
                 .name(request.name())
                 .address(request.address())
