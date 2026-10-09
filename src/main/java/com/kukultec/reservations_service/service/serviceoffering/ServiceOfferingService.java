@@ -4,6 +4,7 @@ import com.kukultec.reservations_service.dto.request.serviceofferingservice.Serv
 import com.kukultec.reservations_service.dto.response.serviceofferingservice.ServiceOfferingResponse;
 import com.kukultec.reservations_service.entity.Business;
 import com.kukultec.reservations_service.entity.ServiceOffering;
+import com.kukultec.reservations_service.exception.BusinessRuleException;
 import com.kukultec.reservations_service.exception.ResourceNotFoundException;
 import com.kukultec.reservations_service.mapper.serviceoffering.ServiceOfferingMapper;
 import com.kukultec.reservations_service.repository.business.BusinessRepository;
@@ -29,6 +30,10 @@ public class ServiceOfferingService {
         Business business = businessRepository.findById(request.businessId())
                 .orElseThrow(() -> new ResourceNotFoundException("Negocio no encontrado"));
 
+        if (serviceOfferingRepository.existsByBusinessIdAndNameIgnoreCase(business.getId(), request.name())) {
+            throw new BusinessRuleException("El negocio ya tiene un servicio con ese nombre");
+        }
+
         ServiceOffering serviceOffering = serviceOfferingMapper.mapToEntity(request, business);
         ServiceOffering savedEntity = serviceOfferingRepository.save(serviceOffering);
 
@@ -42,29 +47,35 @@ public class ServiceOfferingService {
         return serviceOfferingMapper.mapToResponse(serviceOffering);
     }
 
-    public List<ServiceOfferingResponse> getAll (){
-        return serviceOfferingRepository.findAll()
-                .stream()
+    public List<ServiceOfferingResponse> getAll(Long businessId) {
+        List<ServiceOffering> offerings = (businessId == null)
+                ? serviceOfferingRepository.findAll()
+                : serviceOfferingRepository.findByBusinessId(businessId);
+
+        return offerings.stream()
                 .map(serviceOfferingMapper::mapToResponse)
                 .toList();
     }
 
-    public ServiceOfferingResponse update (Long id, ServiceOfferingRequest request){
-
-        ServiceOffering existsServiceoffering = findServiceOfferingOrThrow(id);
-
+    public ServiceOfferingResponse update(Long id, ServiceOfferingRequest request) {
+        ServiceOffering existing = findServiceOfferingOrThrow(id);
         Business business = findBusinessOrThrow(request.businessId());
 
-        existsServiceoffering.setName(request.name());
-        existsServiceoffering.setDurationMinutes(request.durationMinutes());
-        existsServiceoffering.setPrice(request.price());
-        existsServiceoffering.setBusiness(business);
+        if (serviceOfferingRepository.existsByBusinessIdAndNameIgnoreCaseAndIdNot(
+                business.getId(), request.name(), id)) {
+            throw new BusinessRuleException("El negocio ya tiene otro servicio con ese nombre");
+        }
 
-        ServiceOffering serviceOfferingUpdate = serviceOfferingRepository.save(existsServiceoffering);
+        existing.setBusiness(business);
+        existing.setName(request.name());
+        existing.setDurationMinutes(request.durationMinutes());
+        existing.setPrice(request.price());
 
-        return serviceOfferingMapper.mapToResponse(serviceOfferingUpdate);
+        ServiceOffering updated = serviceOfferingRepository.save(existing);
 
+        return serviceOfferingMapper.mapToResponse(updated);
     }
+
 
     public void delete (Long id){
         if(!serviceOfferingRepository.existsById(id)){
@@ -83,6 +94,4 @@ public class ServiceOfferingService {
         return serviceOfferingRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Servicio no encontrado"));
     }
-
-
 }
