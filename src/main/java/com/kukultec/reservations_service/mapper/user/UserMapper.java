@@ -12,7 +12,7 @@ public class UserMapper {
     public User mapToEntity(UserRequest request, Business business, String passwordHash) {
         return User.builder()
                 .business(business) // puede quedar null
-                .username(request.username())
+                .username(request.userName())
                 .email(request.email())
                 .passwordHash(passwordHash)
                 .role(request.role())

@@ -1,4 +1,4 @@
-package com.kukultec.reservations_service.controller;
+package com.kukultec.reservations_service.controller.employee;
 
 import com.kukultec.reservations_service.dto.request.employee.EmployeeRequest;
 import com.kukultec.reservations_service.dto.response.employee.EmployeeResponse;

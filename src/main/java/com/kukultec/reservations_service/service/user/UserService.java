@@ -50,7 +50,7 @@ public class UserService {
         Business business = resolveBusinessOrNull(request.businessId());
 
         existingUser.setBusiness(business);
-        existingUser.setUsername(request.username());
+        existingUser.setUsername(request.userName());
         existingUser.setEmail(request.email());
         existingUser.setRole(request.role());
         // Solo re-hashea si mandaron una contraseña nueva distinta de vacío.

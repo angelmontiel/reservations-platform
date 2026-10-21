@@ -13,7 +13,7 @@ public record UserRequest (
 
         @NotBlank(message = "Username requerido")
         @Size(max = 100)
-        String username,
+        String userName,
 
         @NotBlank(message = "Email requerido")
         @Email(message = "El formato del email no es válido")
