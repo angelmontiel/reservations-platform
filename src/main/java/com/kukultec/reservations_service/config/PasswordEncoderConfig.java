@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Solo el encoder, adelantado de la Fase 2 (JWT/Spring Security completos).
  * Necesitas la dependencia spring-boot-starter-security en el pom.xml para
  * que BCryptPasswordEncoder esté disponible.
- */
+*/
 @Configuration
 public class PasswordEncoderConfig {
 
